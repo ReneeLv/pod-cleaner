@@ -47,8 +47,8 @@ ENV IN_CLUSTER=true
 ENV LOG_LEVEL=INFO
 ENV LOG_FORMAT=json
 ENV RUN_INTERVAL_MINUTES=10
-ENV EXCLUDED_NAMESPACES=kube-system,kube-public,kube-node-lease
+ENV EXCLUDED_NAMESPACES=kube-system
 ENV HEALTHY_POD_STATES=Running,Init
 
 # Run the application
-CMD ["python", "-m", "src.main"]
+CMD ["python", "src/main.py"]

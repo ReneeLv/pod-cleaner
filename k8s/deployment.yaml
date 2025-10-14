@@ -20,7 +20,7 @@ spec:
       containers:
       - name: pod-cleaner
         image: pod-cleaner:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Never
         env:
         - name: IN_CLUSTER
           value: "true"
@@ -31,7 +31,7 @@ spec:
         - name: RUN_INTERVAL_MINUTES
           value: "10"
         - name: EXCLUDED_NAMESPACES
-          value: "kube-system,kube-public,kube-node-lease"
+          value: "kube-system"
         - name: HEALTHY_POD_STATES
           value: "Running,Init"
         - name: TIMEOUT_SECONDS
@@ -64,9 +64,12 @@ spec:
           timeoutSeconds: 5
           failureThreshold: 3
       restartPolicy: Always
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+      
+      # Override the USER specified in the Dockerfile
+
+      # securityContext:
+      #   runAsNonRoot: true
+      #   runAsUser: 1000
+      #   runAsGroup: 1000
+      #   fsGroup: 1000
 

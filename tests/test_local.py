@@ -7,10 +7,12 @@ import os
 import sys
 import logging
 
-# Add src to path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+# Add the project root to Python path
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, project_root)
 
-from kubernetes_client import KubernetesClient
+# from src import kubernetes_client 
+from src.kubernetes_client import KubernetesClient
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 

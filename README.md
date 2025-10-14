@@ -92,7 +92,7 @@ A Kubernetes-native application that monitors and automatically restarts pods th
 |----------|---------|-------------|
 | `IN_CLUSTER` | `true` | Run in Kubernetes cluster |
 | `KUBE_CONFIG_PATH` | - | Path to kubeconfig (outside cluster) |
-| `EXCLUDED_NAMESPACES` | `kube-system,kube-public,kube-node-lease` | Comma-separated namespaces to skip |
+| `EXCLUDED_NAMESPACES` | `kube-system` | Comma-separated namespaces to skip |
 | `HEALTHY_POD_STATES` | `Running,Init` | Pod states considered healthy |
 | `RUN_INTERVAL_MINUTES` | `10` | Minutes between cleaning cycles |
 | `LOG_LEVEL` | `INFO` | Logging level |
@@ -112,7 +112,6 @@ data:
   config.yaml: |
     excluded_namespaces:
       - "kube-system"
-      - "kube-public"
     healthy_pod_states:
       - "Running"
       - "Init"
@@ -258,4 +257,10 @@ kubectl set env deployment/pod-cleaner LOG_LEVEL=DEBUG
 - Check logs: `make logs`
 - View status: `make status`
 - Test locally: `make run-local`
+
+## How to handle the large kubernetes cluster with tens of thousands of pods
+
+* Concurrent processing pod
+* handle the pod with different priority: high, middle, low, ignore
+* batch processing by namespace
 

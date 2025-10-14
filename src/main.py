@@ -9,6 +9,14 @@ import logging
 import json
 from datetime import datetime
 
+# Load environment variables from .env file
+from dotenv import load_dotenv
+import os
+
+# Load .env file from project root
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+env_path = os.path.join(project_root, '.env')
+
 # Configure structured logging
 class StructuredFormatter(logging.Formatter):
     def format(self, record):
@@ -70,7 +78,8 @@ def main():
             cleaner.run_cleanup()
             
             logger.info("Waiting 10 minutes until next run...")
-            time.sleep(600)  # 10 minutes
+            interval = int(os.getenv("RUN_INTERVAL_MINUTES", 10)) * 60
+            time.sleep(interval)
             
     except KeyboardInterrupt:
         logger.info("Received interrupt signal, shutting down...")

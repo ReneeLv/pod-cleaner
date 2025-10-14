@@ -8,7 +8,8 @@ from dataclasses import dataclass
 from dotenv import load_dotenv
 
 # Load environment variables
-load_dotenv()
+dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+load_dotenv(dotenv_path)
 
 
 @dataclass
@@ -39,7 +40,7 @@ class Config:
     def __post_init__(self):
         """Initialize default values after dataclass creation"""
         if self.excluded_namespaces is None:
-            self.excluded_namespaces = ["kube-system", "kube-public", "kube-node-lease"]
+            self.excluded_namespaces = ["kube-system"]
         
         if self.healthy_pod_states is None:
             self.healthy_pod_states = ["Running", "Init"]

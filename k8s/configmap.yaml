@@ -18,8 +18,6 @@ data:
     namespaces:
       excluded:
         - "kube-system"
-        - "kube-public"
-        - "kube-node-lease"
     
     pods:
       healthy_states:
@@ -38,10 +36,6 @@ data:
   
   excluded-namespaces.txt: |
     kube-system
-    kube-public
-    kube-node-lease
-    istio-system
-    cert-manager
   
   healthy-pod-states.txt: |
     Running
