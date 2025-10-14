@@ -205,26 +205,6 @@ rules:
 - No privileged access
 - Minimal container image (python:3.11-slim)
 
-## 🧪 Testing
-
-### Unit Tests
-
-```bash
-make test
-```
-
-### Integration Tests
-
-```bash
-# Run against a test cluster
-make run-local
-```
-
-### Test Coverage
-
-```bash
-make test-cov
-```
 
 ## 🔨 Development
 
@@ -232,46 +212,19 @@ make test-cov
 
 ```
 pod-cleaner/
-├── src/                    # Source code
+├── src/                   # Source code
 │   ├── __init__.py
 │   ├── config.py          # Configuration management
 │   ├── logger.py          # Logging setup
 │   ├── kubernetes_client.py # K8s API wrapper
 │   ├── pod_cleaner.py     # Main logic
-│   └── main.py           # Entry point
-├── tests/                 # Test code
+│   ├── test_local.py      # Local test k8s connection
+│   └── main.py            # Entry point
 ├── k8s/                   # Kubernetes manifests
-├── Dockerfile            # Container build
-├── Makefile              # Build commands
-└── requirements.txt      # Dependencies
+├── Dockerfile             # Container build
+├── Makefile               # Build commands
+└── requirements.txt       # Dependencies
 ```
-
-### Adding Features
-
-1. **New Logic**: Add to `src/pod_cleaner.py`
-2. **Configuration**: Extend `src/config.py`
-3. **Tests**: Add to `tests/`
-4. **Documentation**: Update this README
-
-### Code Quality
-
-```bash
-make format    # Format code
-make lint      # Check style
-make check     # Full check
-```
-
-## 📝 License
-
-MIT License - see LICENSE file for details.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make changes with tests
-4. Run `make check`
-5. Submit a pull request
 
 ## 🆘 Troubleshooting
 
