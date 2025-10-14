@@ -27,7 +27,7 @@ A Kubernetes-native application that monitors and automatically restarts pods th
          │              │   RBAC Rules    │              │
          │              │  - list pods    │              │
          │              │  - delete pods  │              │
-         │              │  - list namespaces│             │
+         │              │  - list namespaces│            │
          │              └─────────────────┘              │
          │                                               │
          └─────────────── Restart Pods ──────────────────┘
@@ -40,31 +40,6 @@ A Kubernetes-native application that monitors and automatically restarts pods th
 - Kubernetes cluster (1.19+)
 - kubectl configured
 - Docker (for building)
-
-### Local Development
-
-1. **Clone and setup**:
-   ```bash
-   git clone <repository>
-   cd pod-cleaner
-   make dev-setup
-   ```
-
-2. **Configure**:
-   ```bash
-   cp env.example .env
-   # Edit .env as needed
-   ```
-
-3. **Run locally** (requires kubeconfig):
-   ```bash
-   make run-local
-   ```
-
-4. **Run tests**:
-   ```bash
-   make test
-   ```
 
 ### Kubernetes Deployment
 
@@ -197,7 +172,7 @@ rules:
   verbs: ["get", "list"]
 ```
 
-### Security Context
+### Security Context(only use if no user specific in Dockerfile)
 
 - Runs as non-root user (UID 1000)
 - Read-only root filesystem
@@ -225,34 +200,7 @@ pod-cleaner/
 └── requirements.txt       # Dependencies
 ```
 
-## 🆘 Troubleshooting
-
-### Common Issues
-
-**Pod Cleaner not starting**:
-- Check RBAC permissions
-- Verify service account exists
-- Check logs: `kubectl logs deployment/pod-cleaner`
-
-**Pods not being cleaned**:
-- Verify pod has owner references
-- Check if pod is in excluded namespace
-- Confirm pod state is not Running/Init
-- Check pod age (must be > 5 minutes)
-
-**Permission denied errors**:
-- Verify ClusterRole and ClusterRoleBinding
-- Check service account configuration
-
-### Debug Mode
-
-Run with debug logging:
-
-```bash
-kubectl set env deployment/pod-cleaner LOG_LEVEL=DEBUG
-```
-
-### Support
+## Debug
 
 - Check logs: `make logs`
 - View status: `make status`
