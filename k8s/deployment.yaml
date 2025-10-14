@@ -1,0 +1,72 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-cleaner
+  namespace: default
+  labels:
+    app: pod-cleaner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-cleaner
+  template:
+    metadata:
+      labels:
+        app: pod-cleaner
+    spec:
+      serviceAccountName: pod-cleaner
+      containers:
+      - name: pod-cleaner
+        image: pod-cleaner:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: IN_CLUSTER
+          value: "true"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: LOG_FORMAT
+          value: "json"
+        - name: RUN_INTERVAL_MINUTES
+          value: "10"
+        - name: EXCLUDED_NAMESPACES
+          value: "kube-system,kube-public,kube-node-lease"
+        - name: HEALTHY_POD_STATES
+          value: "Running,Init"
+        - name: TIMEOUT_SECONDS
+          value: "300"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          exec:
+            command:
+            - python
+            - -c
+            - "import kubernetes; print('Liveness check passed')"
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command:
+            - python
+            - -c
+            - "import kubernetes; print('Readiness check passed')"
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+      restartPolicy: Always
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+

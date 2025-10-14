@@ -1,0 +1,49 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pod-cleaner-config
+  namespace: default
+data:
+  config.yaml: |
+    app:
+      name: "Pod Cleaner"
+      version: "1.0.0"
+      debug: false
+    
+    kubernetes:
+      in_cluster: true
+      timeout_seconds: 300
+    
+    namespaces:
+      excluded:
+        - "kube-system"
+        - "kube-public"
+        - "kube-node-lease"
+    
+    pods:
+      healthy_states:
+        - "Running"
+        - "Init"
+      min_age_seconds: 300  # 5 minutes
+      grace_period_seconds: 30
+    
+    scheduling:
+      interval_minutes: 10
+      max_concurrent_runs: 1
+    
+    logging:
+      level: "INFO"
+      format: "json"
+  
+  excluded-namespaces.txt: |
+    kube-system
+    kube-public
+    kube-node-lease
+    istio-system
+    cert-manager
+  
+  healthy-pod-states.txt: |
+    Running
+    Init
+
